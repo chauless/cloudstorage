@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  database:
+    image: postgres:latest
+    hostname: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    env_file: ./.env
+    volumes:
+      - /var/lib/postgresql/data/
+    restart: unless-stopped
