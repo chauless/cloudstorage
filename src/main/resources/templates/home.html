@@ -17,6 +17,25 @@
 <div class="container-fluid mt-4" style="min-height: 50vh;">
     <div class="row h-100">
 
+        <!-- Left Pane -->
+        <div class="col-md-2 d-flex justify-content-center align-items-start">
+
+            <div aria-label="upload button group" class="btn-group-vertical" role="group">
+                <button class="btn btn-primary mb-1" data-mdb-target="#fileUploadModal" data-mdb-toggle="modal"
+                        type="button">
+                    Upload file
+                </button>
+                <!-- File Upload Modal -->
+                <div th:replace="components/upload-file-modal :: file-modal"></div>
+
+                <button class="btn btn-primary" data-mdb-target="#folderUploadModal" data-mdb-toggle="modal"
+                        type="button">
+                    Upload folder
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Pane -->
         <div class="col-md-9">
 
             <!-- Outer container -->
@@ -42,16 +61,14 @@
                          th:unless="${username}">
                         <img class="w-25" th:src="@{/error.png}">
                         <p class="lead">
-                            You are not logged in, please <a class="fw-normal" th:href="@{login}">login</a> to see your files.
+                            You are not logged in, please <a class="fw-normal" th:href="@{login}">login</a> to see your
+                            files.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js" type="text/javascript"></script>
