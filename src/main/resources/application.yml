@@ -14,8 +14,9 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-application:
-  security:
-    jwt:
-      secret-key: XaGuAh8iCdF7UEEKsukI9PhK1VLE1wrT5YzLlP0UzdA
-      expiration: 86400000
+minio:
+  client:
+    endpoint: http://localhost:9000
+    user: minioadmin
+    password: minioadmin
+  bucket-name: user-files
