@@ -65,6 +65,23 @@
                             files.
                         </p>
                     </div>
+
+                    <!-- Files -->
+                    <div class="mt-5" th:if="${files}">
+                        <h6 class="mb-3">Files</h6>
+                        <div class="row row-cols-1 row-cols-md-5 g-4">
+                            <div class="col" th:each="file, iterStat : ${files}" th:unless="${file.isDir}">
+                                <div class="card flex-row p-2 align-items-center justify-content-between shadow-4-strong">
+
+                                    <!-- File Name -->
+                                    <div class="d-flex align-items-center w-75 position-relative">
+                                        <img alt="file" style="width: 2rem" th:src="@{/img/file.png}"/>
+                                        <span class="ms-2 d-block text-truncate" th:text="${file.name}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
