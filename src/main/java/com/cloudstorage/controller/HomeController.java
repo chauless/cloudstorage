@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static com.cloudstorage.utils.BreadcrumbsUtils.getBreadcrumbLinksForPath;
+import static com.cloudstorage.utils.BreadcrumbsUtils.getFolderNamesForPath;
+
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
@@ -33,6 +36,8 @@ public class HomeController {
         }
 
         model.addAttribute("fileUploadRequest", new FileUploadRequest());
+        model.addAttribute("breadcrumbLinks", getBreadcrumbLinksForPath(path));
+        model.addAttribute("breadcrumbFolders", getFolderNamesForPath(path));
 
         return "home";
     }
