@@ -32,6 +32,8 @@
                         type="button">
                     Upload folder
                 </button>
+                <!-- Folder Upload Modal -->
+                <div th:replace="components/upload-folder-modal :: folder-modal"></div>
             </div>
         </div>
 
@@ -77,6 +79,24 @@
                                     <div class="d-flex align-items-center w-75 position-relative">
                                         <img alt="file" style="width: 2rem" th:src="@{/img/file.png}"/>
                                         <span class="ms-2 d-block text-truncate" th:text="${file.name}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Folders -->
+                    <div th:if="${files}">
+                        <h6 class="mb-3">Folders</h6>
+                        <div class="row row-cols-1 row-cols-md-5 g-4">
+                            <div class="col" th:each="file, iterStat : ${files}" th:if="${file.isDir}">
+                                <div class="card flex-row p-2 align-items-center justify-content-between shadow-4-strong">
+
+                                    <!-- Folder Name -->
+                                    <div class="d-flex align-items-center w-75 position-relative">
+                                        <img alt="folder" style="width: 2rem" th:src="@{/img/folder.png}"/>
+                                        <span class="ms-2 d-block text-truncate" th:text="${file.name}"></span>
+                                        <a class="stretched-link" th:href="@{'/?path=' + ${file.path}}"></a>
                                     </div>
                                 </div>
                             </div>
