@@ -1,12 +1,10 @@
 package com.cloudstorage.service;
 
 import com.cloudstorage.config.MinioBucketConfig;
+import com.cloudstorage.dto.FileDeleteRequest;
 import com.cloudstorage.dto.FileUploadRequest;
 import com.cloudstorage.dto.MinioObjectDto;
-import io.minio.ListObjectsArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.Result;
+import io.minio.*;
 import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,10 +24,6 @@ public class FileService {
     private final MinioClient minioClient;
     private final MinioBucketConfig minioBucketConfig;
 
-    public List<MinioObjectDto> getUserFiles(String username, String folder) {
-        return getUserFiles(username, folder, false);
-    }
-
     public void uploadFile(FileUploadRequest fileUploadRequest) {
         MultipartFile file = fileUploadRequest.getFile();
         try (InputStream stream = file.getInputStream()) {
@@ -37,6 +31,17 @@ public class FileService {
                     .stream(stream, file.getSize(), -1)
                     .bucket(minioBucketConfig.getBucketName())
                     .object(getUserRootFolderPrefix(fileUploadRequest.getOwner()) + file.getOriginalFilename())
+                    .build());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteFile(FileDeleteRequest fileDeleteRequest) {
+        try {
+            minioClient.removeObject(RemoveObjectArgs.builder()
+                    .bucket(minioBucketConfig.getBucketName())
+                    .object(getUserRootFolderPrefix(fileDeleteRequest.getOwner()) + fileDeleteRequest.getPath())
                     .build());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -62,8 +67,7 @@ public class FileService {
                         getFileNameFromPath(item.objectName())
                 );
                 files.add(object);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
@@ -82,5 +86,13 @@ public class FileService {
             return path.substring(path.lastIndexOf('/') + 1);
         }
         return path;
+    }
+
+    public List<MinioObjectDto> getUserFiles(String username, String folder) {
+        return getUserFiles(username, folder, false);
+    }
+
+    public List<MinioObjectDto> getAllUserFiles(String username, String folder) {
+        return getUserFiles(username, folder, true);
     }
 }
