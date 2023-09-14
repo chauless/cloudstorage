@@ -96,6 +96,31 @@
                                         <img alt="file" style="width: 2rem" th:src="@{/file.png}"/>
                                         <span class="ms-2 d-block text-truncate" th:text="${file.name}"></span>
                                     </div>
+
+                                    <!-- File Actions -->
+                                    <div>
+                                        <div class="dropdown">
+                                            <button aria-expanded="false" class="bg-white"
+                                                    data-mdb-toggle="dropdown" id="fileDropdown"
+                                                    style="border: none; width: 2.5rem; :after" type="button">
+                                                <img class="w-50" th:src="@{/more.png}"/>
+                                            </button>
+
+                                            <ul aria-labelledby="fileDropdown" class="dropdown-menu">
+
+                                                <!-- File Delete -->
+                                                <li>
+                                                    <form th:action="@{/files}" th:method="delete"
+                                                          th:object="${fileDeleteRequest}">
+                                                        <input th:name="path" th:value="${file.path}" type="hidden">
+                                                        <input th:name="owner" th:value="${username}" type="hidden">
+                                                        <button class="dropdown-item" type="submit">Delete</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -113,6 +138,30 @@
                                         <img alt="folder" style="width: 2rem" th:src="@{/folder.png}"/>
                                         <span class="ms-2 d-block text-truncate" th:text="${file.name}"></span>
                                         <a class="stretched-link" th:href="@{'/?path=' + ${file.path}}"></a>
+                                    </div>
+
+                                    <!-- Folder Actions -->
+                                    <div>
+                                        <div class="dropdown">
+                                            <button aria-expanded="false" class="bg-white"
+                                                    data-mdb-toggle="dropdown" id="folderDropdown"
+                                                    style="border: none; width: 2.5rem; :after" type="button">
+                                                <img class="w-50" th:src="@{/more.png}"/>
+                                            </button>
+
+                                            <ul aria-labelledby="folderDropdown" class="dropdown-menu">
+
+                                                <!-- Folder Delete -->
+                                                <li>
+                                                    <form th:action="@{/folders}" th:method="delete"
+                                                          th:object="${folderDeleteRequest}">
+                                                        <input th:name="path" th:value="${file.path}" type="hidden">
+                                                        <input th:name="owner" th:value="${username}" type="hidden">
+                                                        <button class="dropdown-item" type="submit">Delete</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
