@@ -1,7 +1,6 @@
 package com.cloudstorage.controller;
 
-import com.cloudstorage.dto.FileUploadRequest;
-import com.cloudstorage.dto.MinioObjectDto;
+import com.cloudstorage.dto.*;
 import com.cloudstorage.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,6 +35,11 @@ public class HomeController {
         }
 
         model.addAttribute("fileUploadRequest", new FileUploadRequest());
+        model.addAttribute("fileDeleteRequest", new FileDeleteRequest());
+
+        model.addAttribute("folderUploadRequest", new FolderUploadRequest());
+        model.addAttribute("folderDeleteRequest", new FolderDeleteRequest());
+
         model.addAttribute("breadcrumbLinks", getBreadcrumbLinksForPath(path));
         model.addAttribute("breadcrumbFolders", getFolderNamesForPath(path));
 
