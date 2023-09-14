@@ -91,4 +91,8 @@ public class FileService {
     public List<MinioObjectDto> getUserFiles(String username, String folder) {
         return getUserFiles(username, folder, false);
     }
+
+    public List<MinioObjectDto> getAllUserFiles(String username, String folder) {
+        return getUserFiles(username, folder, true);
+    }
 }
