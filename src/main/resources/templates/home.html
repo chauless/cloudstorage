@@ -84,48 +84,6 @@
                         </p>
                     </div>
 
-                    <!-- Files -->
-                    <div class="mt-5" th:if="${files}">
-                        <h6 class="mb-3">Files</h6>
-                        <div class="row row-cols-1 row-cols-md-5 g-4">
-                            <div class="col" th:each="file, iterStat : ${files}" th:unless="${file.isDir}">
-                                <div class="card flex-row p-2 align-items-center justify-content-between shadow-4-strong">
-
-                                    <!-- File Name -->
-                                    <div class="d-flex align-items-center w-75 position-relative">
-                                        <img alt="file" style="width: 2rem" th:src="@{/file.png}"/>
-                                        <span class="ms-2 d-block text-truncate" th:text="${file.name}"></span>
-                                    </div>
-
-                                    <!-- File Actions -->
-                                    <div>
-                                        <div class="dropdown">
-                                            <button aria-expanded="false" class="bg-white"
-                                                    data-mdb-toggle="dropdown" id="fileDropdown"
-                                                    style="border: none; width: 2.5rem; :after" type="button">
-                                                <img class="w-50" th:src="@{/more.png}"/>
-                                            </button>
-
-                                            <ul aria-labelledby="fileDropdown" class="dropdown-menu">
-
-                                                <!-- File Delete -->
-                                                <li>
-                                                    <form th:action="@{/files}" th:method="delete"
-                                                          th:object="${fileDeleteRequest}">
-                                                        <input th:name="path" th:value="${file.path}" type="hidden">
-                                                        <input th:name="owner" th:value="${username}" type="hidden">
-                                                        <button class="dropdown-item" type="submit">Delete</button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Folders -->
                     <div th:if="${files}">
                         <h6 class="mb-3">Folders</h6>
@@ -155,6 +113,57 @@
                                                 <li>
                                                     <form th:action="@{/folders}" th:method="delete"
                                                           th:object="${folderDeleteRequest}">
+                                                        <input th:name="path" th:value="${file.path}" type="hidden">
+                                                        <input th:name="owner" th:value="${username}" type="hidden">
+                                                        <button class="dropdown-item" type="submit">Delete</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Files -->
+                    <div class="mt-5" th:if="${files}">
+                        <h6 class="mb-3">Files</h6>
+                        <div class="row row-cols-1 row-cols-md-5 g-4">
+                            <div class="col" th:each="file, iterStat : ${files}" th:unless="${file.isDir}">
+                                <div class="card flex-row p-2 align-items-center justify-content-between shadow-4-strong">
+
+                                    <!-- File Name -->
+                                    <div class="d-flex align-items-center w-75 position-relative">
+                                        <img alt="file" style="width: 2rem" th:src="@{/file.png}"/>
+                                        <span class="ms-2 d-block text-truncate" th:text="${file.name}"></span>
+
+                                        <!-- File Download -->
+                                        <form th:action="@{/files}" th:method="get"
+                                              th:object="${fileDownloadRequest}">
+                                            <input th:name="path" th:value="${file.path}" type="hidden">
+                                            <input th:name="owner" th:value="${username}" type="hidden">
+                                            <input th:name="name" th:value="${file.name}" type="hidden">
+                                            <button class="stretched-link" style="border: none"
+                                                    type="submit"></button>
+                                        </form>
+                                    </div>
+
+                                    <!-- File Actions -->
+                                    <div>
+                                        <div class="dropdown">
+                                            <button aria-expanded="false" class="bg-white"
+                                                    data-mdb-toggle="dropdown" id="fileDropdown"
+                                                    style="border: none; width: 2.5rem; :after" type="button">
+                                                <img class="w-50" th:src="@{/more.png}"/>
+                                            </button>
+
+                                            <ul aria-labelledby="fileDropdown" class="dropdown-menu">
+
+                                                <!-- File Delete -->
+                                                <li>
+                                                    <form th:action="@{/files}" th:method="delete"
+                                                          th:object="${fileDeleteRequest}">
                                                         <input th:name="path" th:value="${file.path}" type="hidden">
                                                         <input th:name="owner" th:value="${username}" type="hidden">
                                                         <button class="dropdown-item" type="submit">Delete</button>
