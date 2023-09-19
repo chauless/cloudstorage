@@ -2,11 +2,13 @@ package com.cloudstorage.service;
 
 import com.cloudstorage.config.MinioBucketConfig;
 import com.cloudstorage.dto.FileDeleteRequest;
+import com.cloudstorage.dto.FileDownloadRequest;
 import com.cloudstorage.dto.FileUploadRequest;
 import com.cloudstorage.dto.MinioObjectDto;
 import io.minio.*;
 import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,6 +46,19 @@ public class FileService {
                     .object(getUserRootFolderPrefix(fileDeleteRequest.getOwner()) + fileDeleteRequest.getPath())
                     .build());
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ByteArrayResource downloadFile(FileDownloadRequest fileDownloadRequest) {
+        GetObjectArgs getObjectArgs = GetObjectArgs.builder()
+                .bucket(minioBucketConfig.getBucketName())
+                .object(getUserRootFolderPrefix(fileDownloadRequest.getOwner()) + fileDownloadRequest.getPath())
+                .build();
+        try (GetObjectResponse object = minioClient.getObject(getObjectArgs)) {
+            return new ByteArrayResource(object.readAllBytes());
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
